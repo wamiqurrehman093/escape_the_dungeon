@@ -3,19 +3,8 @@ using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
-    public static CoinManager Instance { get; private set; }
     [SerializeField] private TMPro.TextMeshProUGUI coinText;
     private int totalCoins = 0;
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else {
-            Destroy(gameObject);
-        }
-    }
     void Start()
     {
         UpdateCoinText();

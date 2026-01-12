@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private GameObject damageEffect;
     [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private GameManager gameManager;
     private Animator animator;
     void Start()
     {
@@ -46,7 +47,7 @@ public class PlayerHealth : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Die");
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
         }
     }
 }

@@ -1,11 +1,12 @@
 using UnityEngine;
-
+using TMPro;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private GameObject damageEffect;
+    [SerializeField] private TextMeshProUGUI healthText;
     private Animator animator;
     void Start()
     {
@@ -14,7 +15,7 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
         if (damageSound != null)
         {
             AudioSource.PlayClipAtPoint(damageSound, transform.position);
@@ -31,12 +32,7 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
-        Debug.Log($"Player took {damage} damage. Health: {currentHealth}/{maxHealth}");
-    }
-    public void Heal(float amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log($"Player healed for {amount}. Health: {currentHealth}/{maxHealth}");
+        healthText.text = $"Health: {currentHealth}/{maxHealth}";
     }
     private void Die()
     {
@@ -45,10 +41,12 @@ public class PlayerHealth : MonoBehaviour
         if (playerController != null)
         {
             playerController.enabled = false;
+            gameObject.SetActive(false);
         }
         if (animator != null)
         {
             animator.SetTrigger("Die");
+            GameManager.Instance.GameOver();
         }
     }
 }

@@ -86,7 +86,7 @@ public class KnightEnemy : EnemyBase
 
     protected override void UpdateAttackState()
     {
-        if (player == null)
+        if (player == null || !player.gameObject.activeSelf)
         {
             ChangeState(EnemyState.ReturnToBase);
             return;
@@ -152,7 +152,9 @@ public class KnightEnemy : EnemyBase
         {
             animator.SetTrigger("Attack");
         }
-
+    }
+    public void OnAttackHit()
+    {
         // Check if attack hits
         if (player != null)
         {
@@ -175,13 +177,6 @@ public class KnightEnemy : EnemyBase
                     }
                 }
             }
-        }
-    }
-    public void OnAttackHit()
-    {
-        if (weapon != null)
-        {
-
         }
     }
 

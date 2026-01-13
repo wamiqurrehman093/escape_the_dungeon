@@ -1,10 +1,23 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
-    [SerializeField] private TMPro.TextMeshProUGUI coinText;
+    public static CoinManager Instance { get; private set; }
+    private UIManager uiManager;
     private int totalCoins = 0;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        GetUIManagerReference();
+    }
     void Start()
     {
         UpdateCoinText();
@@ -20,9 +33,18 @@ public class CoinManager : MonoBehaviour
     }
     private void UpdateCoinText()
     {
-        if (coinText != null)
+        if (uiManager != null)
         {
-            coinText.text = $"Coins: {totalCoins}";
+            uiManager.UpdateCoinsText(totalCoins);
         }
+    }
+    private void GetUIManagerReference()
+    {
+        GameObject uiManagerObject = GameObject.FindWithTag("UIManager");
+        Instance.uiManager = uiManagerObject.GetComponent<UIManager>();
+    }
+    public void Reset()
+    {
+        totalCoins = 0;
     }
 }

@@ -1,17 +1,19 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private GameObject damageEffect;
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private UIManager uiManager;
     private Animator animator;
     void Start()
     {
         currentHealth = maxHealth;
+        uiManager.SetMaxHealth(maxHealth);
+        uiManager.SetCurrentHealth(currentHealth);
         animator = GetComponent<Animator>();
     }
     public void TakeDamage(float damage)
@@ -33,11 +35,10 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
-        healthText.text = $"Health: {currentHealth}/{maxHealth}";
+        uiManager.UpdateHealth(currentHealth);
     }
     private void Die()
     {
-        Debug.Log("Player died!");
         PlayerController playerController = GetComponent<PlayerController>();
         if (playerController != null)
         {
@@ -47,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Die");
-            gameManager.GameOver();
+            uiManager.ShowGameOverPanel();
         }
     }
 }

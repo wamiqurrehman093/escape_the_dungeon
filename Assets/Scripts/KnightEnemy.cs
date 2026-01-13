@@ -105,8 +105,12 @@ public class KnightEnemy : EnemyBase
         attackTimer += Time.deltaTime;
         if (attackTimer >= attackCooldown)
         {
-            PerformAttack();
-            attackTimer = 0f;
+            if (player.gameObject.activeSelf)
+            {
+                PerformAttack();
+                attackTimer = 0f;
+            }
+            ChangeState(EnemyState.ReturnToBase);
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);

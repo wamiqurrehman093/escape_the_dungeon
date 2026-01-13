@@ -18,6 +18,8 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected Transform[] patrolPoints;
     [SerializeField] protected float waitTimeAtPoint = 2f;
     [SerializeField] protected float patrolSpeed = 2f;
+    [SerializeField] protected Vector3 defaultPointA;
+    [SerializeField] protected Vector3 defaultPointB;
 
     [Header("Chase Settings")]
     [SerializeField] protected float chaseSpeed = 5f;
@@ -155,12 +157,12 @@ public class EnemyBase : MonoBehaviour
         patrolPoints = new Transform[2];
 
         GameObject pointA = new GameObject("PatrolPoint_A");
-        pointA.transform.position = transform.position + transform.right * 5f;
+        pointA.transform.position = transform.position + defaultPointA;
         pointA.transform.parent = transform.parent;
         patrolPoints[0] = pointA.transform;
 
         GameObject pointB = new GameObject("PatrolPoint_B");
-        pointB.transform.position = transform.position - transform.right * 5f;
+        pointB.transform.position = transform.position + defaultPointB;
         pointB.transform.parent = transform.parent;
         patrolPoints[1] = pointB.transform;
     }
